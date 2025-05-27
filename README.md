@@ -37,50 +37,34 @@ Open a browser and navigate to http://127.0.0.1:8000 (or the assigned port).
 
 ## PROGRAM:
 ```
-<!DOCTYPE html>
+from http.server import HTTPServer, BaseHTTPRequestHandler
+
+content = """
 <html>
 <head>
-    <title>TCP/IP Protocol Suite</title>
 </head>
 <body>
-    <h1>Protocols in TCP/IP Protocol Suite</h1>
-    <ul>
-        <li>HTTP (HyperText Transfer Protocol)</li>
-        <li>FTP (File Transfer Protocol)</li>
-        <li>TCP (Transmission Control Protocol)</li>
-        <li>UDP (User Datagram Protocol)</li>
-        <li>IP (Internet Protocol)</li>
-        <li>SMTP (Simple Mail Transfer Protocol)</li>
-        <li>DNS (Domain Name System)</li>
-        <li>DHCP (Dynamic Host Configuration Protocol)</li>
-    </ul>
+<h1>Welcome</h1>
 </body>
-</html>
-```
-```
-from http.server import SimpleHTTPRequestHandler, HTTPServer
+<html>
+"""
+class HelloHandler(BaseHTTPRequestHandler):
+    def do_GET(self):
+        self.send_response(200)
+        self.send_header('content-type', 'text/html; charset=utf-8')
+        self.end_headers()
+        self.wfile.write(content.encode())
 
-# Set the server address and port
-host = 'localhost'
-port = 8000
-
-# Create HTTP server using the built-in request handler
-server = HTTPServer((host, port), SimpleHTTPRequestHandler)
-
-print(f"Server started at http://{host}:{port}")
-print("Press Ctrl+C to stop the server")
-
-# Run the server
-try:
-    server.serve_forever()
-except KeyboardInterrupt:
-    print("\nServer is shutting down...")
-    server.server_close()
+server_address = ('', 80)
+httpd = HTTPServer(server_address, HelloHandler)
+httpd.serve_forever()
 ```
 
 
 ## OUTPUT:
-![Screenshot (74)](https://github.com/user-attachments/assets/a068ceb0-5af6-4084-88fe-371579eb45c4)
+![Screenshot (86)](https://github.com/user-attachments/assets/bea34c81-2b30-4350-a74d-a0e60a3f3fe6)
+
+![Screenshot (85)](https://github.com/user-attachments/assets/e921cd97-372b-46b0-ba2b-c4fb89000036)
 
 
 
